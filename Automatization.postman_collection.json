@@ -1,0 +1,274 @@
+{
+	"info": {
+		"_postman_id": "53566e8e-bbfb-4a25-8cc7-1824492d273c",
+		"name": "Automatization",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://swapi.co/api/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0fa18acf-376e-4600-9dac-1d8a4615661f",
+						"exec": [
+							"//1.correct response format JSON (Правильный формат ответа JSON)",
+							"pm.test(\"правильный формат ответа JSON(correct response format JSON)\", function(){",
+							"    pm.response.to.have.jsonBody()",
+							"});",
+							"//2.We have all the declared fields in the response (У нас есть все заявленные поля в ответе)",
+							"pm.test(\"Check that we have all declared fields(Проверка наличия всех заявленных полей)\", function(){",
+							"    const jsonData = pm.response.json()",
+							"    ",
+							"    pm.expect(jsonData).to.have.property(\"people\");",
+							"    pm.expect(jsonData).to.have.property(\"planets\");",
+							"    pm.expect(jsonData).to.have.property(\"films\");",
+							"    pm.expect(jsonData).to.have.property(\"species\");",
+							"    pm.expect(jsonData).to.have.property(\"vehicles\");",
+							"    pm.expect(jsonData).to.have.property(\"starships\");",
+							"})",
+							"//3. Field value isn't NULL",
+							"pm.test(\"Check if value isn't NULL\", function(){",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.people).not.equal(null);",
+							"    pm.expect(jsonData.planets).not.equal(null);",
+							"    pm.expect(jsonData.films).not.equal(null);",
+							"    pm.expect(jsonData.species).not.equal(null);",
+							"    pm.expect(jsonData.vehicles).not.equal(null);",
+							"    pm.expect(jsonData.starships).not.equal(null);",
+							"    ",
+							"})",
+							"    ",
+							"//4.Check if value isn't empty",
+							"pm.test(\"Check if value isn't empty\"),function(){",
+							"     var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.people).not.equal(\"\");",
+							"    pm.expect(jsonData.planets).not.equal(\"\");",
+							"    pm.expect(jsonData.films).not.equal(\"\");",
+							"    pm.expect(jsonData.species).not.equal(\"\");",
+							"    pm.expect(jsonData.vehicles).not.equal(\"\");",
+							"    pm.expect(jsonData.starships).not.equal(\"\"); ",
+							"}",
+							"//5. Check if field corresponds to a specific value",
+							"pm.test(\"Check if field corresponds to a specific value\"),function(){",
+							"     var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.people).to.equal(\"https://swapi.co/api/people/\");",
+							"    pm.expect(jsonData.planets).to.equal(\"https://swapi.co/api/planets/\");",
+							"    pm.expect(jsonData.films).to.equal(\"https://swapi.co/api/films/\");",
+							"    pm.expect(jsonData.species).to.equal(\"https://swapi.co/api/species/\");",
+							"    pm.expect(jsonData.vehicles).to.equal(\"https://swapi.co/api/vehicles/\");",
+							"    pm.expect(jsonData.starships).to.equal(\"https://swapi.co/api/starships/\"); ",
+							"}",
+							"//6.Status code is 200",
+							"pm.test(\"Status code is 200\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"//7. Status message is ok",
+							"pm.test(\"Status message is ok\", function(){",
+							"    pm.response.to.have.status(\"OK\");",
+							"})",
+							"//8. Response time is less than 1000ms",
+							"pm.test(\"Response time is less than 3000ms\", function(){",
+							"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+							"})",
+							"//9. There is a specific header in the response ",
+							"pm.test(\"There is a specific header in the response\", function(){",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"})",
+							"//10. The response has a specific header with a specific value",
+							"pm.test(\"The response has a specific header with a specific value\", function(){",
+							"    pm.response.to.be.header(\"Content-Type\", \"application/json\");",
+							"})",
+							"//11.Cookie exists",
+							"pm.test(\"Cookie exists\", function(){",
+							"    pm.cookies.has(\"__cfduid\");",
+							"})",
+							"//12. Cookies has value",
+							"pm.test(\"Cookies has value\", function(){",
+							"    try{",
+							"        var MY_COOKIE = pm.cookies.get(\"__cfduid\");",
+							"        console.log(MY_COOKIE);",
+							"        ",
+							"    }catch(e) {",
+							"        console.log(\"SOME PROBLEM WITH COOKIE ->\" + e)",
+							"    }",
+							"})",
+							"//13.Validate on JSON schem",
+							"var data = JSON.parse(responseBody);",
+							"var schema = {",
+							"    //specify the type of object",
+							"    \"type\": \"object\", ",
+							"    //specify requires properties",
+							"    \"required\" : [\"people\", \"planets\", \"films\", \"species\", \"vehicles\", \"starships\"],",
+							"    //describe the properties ",
+							"    \"properties\": {",
+							"        \"people\": {\"type\":\"string\"},",
+							"        \"planets\": {\"type\":\"string\"},",
+							"        \"films\": {\"type\":\"string\"},",
+							"        \"species\": {\"type\":\"string\"},",
+							"        \"vehicles\": {\"type\":\"string\"},",
+							"        \"starships\": {\"type\":\"string\"}",
+							"    }",
+							"        ",
+							"};",
+							"pm.test(\"Validate on JSON schem\", function(){",
+							"    pm.expect(tv4.validate(data, schema)).to.be.true;",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://swapi.co/api/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"co"
+					],
+					"path": [
+						"api",
+						""
+					]
+				},
+				"description": "Тесты для запроса "
+			},
+			"response": []
+		},
+		{
+			"name": "https://swapi.co/api/people/1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9c970c17-682e-4874-a047-0d3df074337a",
+						"exec": [
+							"var date =JSON.parse(responseBody);",
+							"",
+							"var schema = {",
+							"    \"type\" : \"object\",",
+							"//обязательные поля ",
+							"\"required\" : [\"name\", \"homeworld\", \"films\", \"species\", \"vehicles\", \"starships\"],",
+							"//свойства каждого поля",
+							"\"property\" : {",
+							"    \"name\": {\"type\" : \"string\"},",
+							"    \"homeworld\" : {\"type\" : \"string\"},",
+							"    \"films\" : {",
+							"        \"type\" : \"array\",",
+							"        \"items\":{\"type\": \"string\"}",
+							"    },",
+							"    \"species\": {",
+							"        \"type\":\"array\",",
+							"        \"items\":{\"type\" : \"string\"}",
+							"    },",
+							"    \"vehicles\": {",
+							"        \"type\":\"array\",",
+							"        \"items\":{\"type\" : \"string\"}",
+							"    },",
+							"    \"starships\": {",
+							"        \"type\":\"array\",",
+							"        \"items\":{\"type\" : \"string\"}",
+							"    },",
+							"",
+							"}",
+							"};",
+							"pm.test(\"Validate on JSON schem\", function(){",
+							"    pm.expect(tv4.validate(date, schema)).to.be.true;",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.co/api/people/1",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"co"
+					],
+					"path": [
+						"api",
+						"people",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://postman-echo.com/basic-auth",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "postman",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://postman-echo.com/basic-auth",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"basic-auth"
+					]
+				},
+				"description": "authorization with basic auth"
+			},
+			"response": []
+		},
+		{
+			"name": "https://postman-echo.com/basic-auth",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic cG9zdG1hbjpwYXNzd29yZA==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://postman-echo.com/basic-auth",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"basic-auth"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
